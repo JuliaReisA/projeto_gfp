@@ -18,6 +18,7 @@ class rotasCategorias{
        static async atualizarTodosCampos(req, res){
         const {id} = req.params 
         const {nome, tipo_transacao, gasto_fixo, id_usuario } = req.body;
+        
  
         try{
             const categoria = await BD.query('UPDATE categorias SET nome = $1, tipo_transacao = $2, gasto_fixo = $3, id_usuario = $4  where id_categoria = $5',
@@ -113,6 +114,32 @@ class rotasCategorias{
             res.status(500).json({message: 'Erro ao listar as categorias', error: error.message})
         }
     }
-}
+
+    //Filtrar por tipo de categoria
+    static async filtrarCategoria(req, res) {
+        //o valor sera enviado por parametro na url, deve ser enviado dessa maneira
+        //tipo_transacao = entrada
+    const { tipo_transacao } = req.query;
+
+    try{
+        const filtros = [];
+        const valores = [];
+
+        if(tipo_transacao){
+            filtros.push(`tipo_transacaol =$${valores.length + 1}`);
+            valores.push(tipo_transacao);
+        }
+        const query = `
+        SELECT FROM categorias
+        ${filtros.length ? `WHERE ${filtros.join("AND")}`: ""}
+        ORDER BY id_categoria DESC
+        `
+
+        const resultado = await BD.query(query, valores)
+             }catch(error){
+
+             }
+        }
+    }
     
       export default rotasCategorias;

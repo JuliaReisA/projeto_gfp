@@ -8,7 +8,7 @@ class rotasSubCategorias{
                 const subcategoria = await BD.query(`INSERT INTO subcategorias  (nome, gasto_fixo, id_categoria) VALUES ($1, $2, $3)`,
                     [ nome, gasto_fixo, id_categoria ])
             
-                res.status(201).json('categorias cadastradas')
+                res.status(201).json('Subcategorias cadastradas')
             }catch(error){
             console.error('erro ao criar categoria', error)
             res.status(500).json({message:  "Erro ao consultar categorias",  error: error.message})
@@ -21,8 +21,8 @@ class rotasSubCategorias{
         const {nome, gasto_fixo, id_categoria} = req.body;
  
         try{
-            const subcategoria = await BD.query('UPDATE subcategorias SET nome = $1 gasto_fixo = $3, id_categoria = $4  ',
-                [nome, gasto_fixo, id_categoria ]
+            const subcategoria = await BD.query('UPDATE subcategorias SET nome = $1, gasto_fixo = $2, id_categoria = $3 WHERE id_subcategoria = $4  ',
+                [nome, gasto_fixo, id_categoria, id ]
             )
             res.status(200).json(subcategoria.rows[0])
         }catch(error){
