@@ -8,7 +8,7 @@ const Estilos = {
     conteudo : {
         flex: 1,
         width: '100%',
-        backgroundColor: corFundo
+        backgroundColor: '#cfbaf0'
     },
 }
 

@@ -26,7 +26,7 @@ class rotasCategorias{
             )
             res.status(200).json(categoria.rows[0])
         }catch(error){
-        res.status(500).json({message:  "Erro ao consultar categorias",  error: error.message})
+        res.status(500).json({message:  "Erro ao atualizar categorias",  error: error.message})
     }
  } 
 
@@ -115,31 +115,28 @@ class rotasCategorias{
         }
     }
 
-    //Filtrar por tipo de categoria
-    static async filtrarCategoria(req, res) {
-        //o valor sera enviado por parametro na url, deve ser enviado dessa maneira
-        //tipo_transacao = entrada
-    const { tipo_transacao } = req.query;
+        //
+        static async filtrarCategoria(req, res) {
+         const { tipo_transacao } = req.query;
 
-    try{
-        const filtros = [];
-        const valores = [];
+         try{
+            const query = `
+            SELECT * FROM categorias
+            WHERE tipo_transacao = $1 AND ativo = true 
+            ORDER BY id_categoria DESC
+            `
 
-        if(tipo_transacao){
-            filtros.push(`tipo_transacaol =$${valores.length + 1}`);
-            valores.push(tipo_transacao);
-        }
-        const query = `
-        SELECT FROM categorias
-        ${filtros.length ? `WHERE ${filtros.join("AND")}`: ""}
-        ORDER BY id_categoria DESC
-        `
+            const valores = [tipo_transacao]
 
-        const resultado = await BD.query(query, valores)
-             }catch(error){
+            const resposta = await BD.query(query, valores)
+
+            return res.status(200).json(resposta.rows)
+         }catch(error){
+            console.error('Erro ao filtrar categorias', error)
+            res.status(500).json({message: 'Erro ao filtrar categorias', error: error.message})
+         }
 
              }
         }
-    }
     
       export default rotasCategorias;

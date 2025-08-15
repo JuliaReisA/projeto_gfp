@@ -85,7 +85,7 @@ class rotasSubCategorias{
         const { id } = req.params;
         try{
             const subcategoria = await BD.query('UPDATE subcategorias SET ativo = false WHERE id_subcategoria = $1', [id])
-    return res.status(200).json({message: "Categoria atualizada com sucesso"})
+    return res.status(200).json({message: "subcategoria deletada com sucesso"})
         }catch(error){
             res.status(500).json({message:  "Erro ao deletar usuario",  error: error.message})
         }

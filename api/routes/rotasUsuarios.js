@@ -8,12 +8,14 @@ class rotasUsuarios{
     static async novoUsuario(req, res){
         const { nome, email, senha, tipo_acesso } = req.body;
 
-        const senhaCriptografada = await bcrypt.hash(senha, 10)
+        const saltRounds = 10;
+        const senhaCriptografada = await bcrypt.hash(senha, saltRounds)
         try{
             const usuario = await BD.query(`
                INSERT INTO usuarios(nome, email, senha, tipo_acesso)
                 VALUES($1, $2, $3, $4)
               `,[nome, email, senhaCriptografada, tipo_acesso])
+              
                 res.status(201).json('Usuario Cadastrado')
         }catch(error){
             console.error('Erro ao criar usuario', error);
@@ -150,7 +152,7 @@ class rotasUsuarios{
         }
     }
 }
-export function autenticarToken(req, res, next){
+    export function autenticarToken(req, res, next){
     //Extrair do token o cabeçalho da requisição
     const token = req.headers['authorization'];//Bearer<token>
 
