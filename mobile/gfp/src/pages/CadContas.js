@@ -45,8 +45,8 @@ export default function CadContas({ navigation, route }) {
               conta_padrao: inputContaPadrao
           }
   
-          const endpoint = `${enderecoServidor}/contas`
-          const metodo = 'POST'
+          let endpoint = `${enderecoServidor}/contas`
+          let metodo = 'POST'
 
             if (route.params && route.params.conta) {
                 endpoint = `${enderecoServidor}/contas/${route.params.conta.id_conta}`

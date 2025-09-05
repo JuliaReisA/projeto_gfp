@@ -20,13 +20,15 @@ class rotasContas{
         const {id} = req.params 
         const {nome, tipo_conta, saldo, ativo, conta_padrao} = req.body;
         
- 
+        
         try{
-            const contas = await BD.query('UPDATE contas SET nome = $1, tipo_conta = $2, saldo = $3, ativo = $4, conta_padrao = $5 ',
-                [nome, tipo_conta, saldo, ativo, conta_padrao]
+            const contas = await BD.query('UPDATE contas SET nome = $1, tipo_conta = $2, saldo = $3, ativo = $4, conta_padrao = $5 WHERE id_conta = $6',
+                [nome, tipo_conta, saldo, ativo, conta_padrao, id]
             )
             res.status(200).json(contas.rows[0])
         }catch(error){
+            console.log(error);
+            
         res.status(500).json({message:  "Erro ao consultar contas",  error: error.message})
           }
      } 
